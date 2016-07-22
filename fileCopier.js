@@ -1,6 +1,8 @@
 'use strict';
-const fs = require('fs.extra');
-const path = require('path');
+const fs      = require('fs.extra');
+const path    = require('path');
+const storage = require('electron-json-storage');
+
 
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
@@ -11,16 +13,28 @@ holder.ondragover = holder.ondragleave = holder.ondragend = () => {
 };
 
 holder.ondrop = (e) => {
-  const folderPath = document.getElementById('folderPath');
   e.preventDefault();
   const file = e.dataTransfer.files[0];
 
-  fs.copy(file.path, `${folderPath.value}/testing.txt`, {replace: false}, function (err) {
+
+  storage.get('userInfo', (err, info) => {
+
     if (err) {
-      // i.e. file already exists or can't write to directory
-      throw err;
+      console.log(`error, no directory path was chosen`, err);
+      return false;
     }
-    console.log("Copied stuff over");
+
+    console.log(info.targetDirectory[0]);
+
+    fs.copy(file.path, `${info.targetDirectory}/testing.txt`, {replace: true}, err => {
+      if (err) {
+        // i.e. file already exists or can't write to directory
+        throw err;
+      }
+      console.log("Copied stuff over");
+    });
+
   });
+
 };
 
