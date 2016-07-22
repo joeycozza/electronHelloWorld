@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <title>Hello World!</title>
   </head>
-  <body>
+  <>
     <h1>Hello World!</h1>
     <!-- All of the Node.js APIs are available in this renderer process. -->
     We are using node <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+
+    <div id="holder" style="width: auto;height: auto;border: 5px solid red;">
+      Drag your file here please
+    </div>
+
+
+    <label for="folderPath">Put Absolute Path to where the dragged file will be saved</label><input type="text" id="folderPath">
+
+    <input type="button" id="directoryChoosing">
+
   </body>
 
   <script>
